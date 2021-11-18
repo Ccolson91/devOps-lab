@@ -16,16 +16,17 @@ var rollbar = new Rollbar({
 rollbar.log('Hello world!')
 
 app.get('/', (req, res) => {
-  try{
-    nonExistentFunction()
-  } catch (error) {
-    rollbar.info('That function does not exist')
-    res.send('Someone tapped the API')
-  }
+  // Caught errors
+try {
+  doSomething();
+} catch (e) {
+  rollbar.error("Something went wrong", e);
+}
+  res.send('Someone tapped the API')
 })
 
 
 
 
 // running
-server.listen(PORT, () => console.log(`This server is running on port number ${PORT}`))
+app.listen(PORT, () => console.log(`This server is running on port number ${PORT}`))
